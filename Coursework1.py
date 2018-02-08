@@ -61,8 +61,6 @@ def decodeNat(n):
 
 Node = lambda v: lambda l: lambda r: pair(F)(pair(v)(pair(l)(r)))
 
-n_data = lambda b: lambda v: lambda l: lambda r: lambda z: z(b)(v)(l)(r)
-
 val = lambda n: (n(F))(T)
 
 left = lambda n: (n(F))(F)(T)
