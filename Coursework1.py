@@ -2,9 +2,9 @@
 
 # Theory of Computation Assignment 1 Section 1
 
-# NAME:
+# NAME: Jamie Sweeney
 
-# STUDENT NUMBER:
+# STUDENT NUMBER: 2137284s
 
 #####################################################################################
 
@@ -57,9 +57,25 @@ def decodeNat(n):
 
 #####################################################################################
 
-# THE SOLUTION TO SECTION 1 GOES HERE
-
 # Binary trees
+
+Node = lambda v: lambda l: lambda r: pair(F)(pair(v)(pair(l)(r)))
+
+n_data = lambda b: lambda v: lambda l: lambda r: lambda z: z(b)(v)(l)(r)
+
+val = lambda n: (n(F))(T)
+
+left = lambda n: (n(F))(F)(T)
+
+right = lambda n: (n(F))(F)(F)
+
+Leaf = lambda x: x
+
+isleaf = lambda x: x(T)
+
+size = lambda t: cond(isleaf(t))(lambda n: n)(lambda n: size(left(t))(size(right(t))(add(S(Z))(n))))
+
+sum_of = lambda t: cond(isleaf(t))(lambda n: n)(lambda n: sum_of(left(t))(sum_of(right(t))(add(val(t))(n))))
 
 def decodeTree(x,decodeVal):
     if decodeBool(isleaf(x)):
@@ -67,9 +83,9 @@ def decodeTree(x,decodeVal):
     else:
         return [decodeVal(val(x)), decodeTree(left(x),decodeVal),
                                     decodeTree(right(x),decodeVal)]
-    
 
-                      
+t = Node(Z)(Node(S(Z))(Leaf)(Leaf))(Node(S(S(Z)))(Leaf)(Leaf))
 
-
-
+print (decodeTree(t,decodeNat))
+print (decodeNat(size(t)(Z)))
+print (decodeNat(sum_of(t)(Z)))
