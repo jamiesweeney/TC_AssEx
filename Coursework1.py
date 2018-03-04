@@ -59,20 +59,30 @@ def decodeNat(n):
 
 # Binary trees
 
+# We have node as a recursive pair containing {is_leaf,{value,{left,right}}}
 Node = lambda v: lambda l: lambda r: pair(F)(pair(v)(pair(l)(r)))
 
+# Take first from second pair
 val = lambda n: (n(F))(T)
 
+# Take first from third pair
 left = lambda n: (n(F))(F)(T)
 
+# Take second from third pair
 right = lambda n: (n(F))(F)(F)
 
 Leaf = lambda x: x
 
 isleaf = lambda x: x(T)
 
+#Takes tree and initial value n
+#If tree is leaf return n
+#Else return the size (left)(size(right)(n+1))
 size = lambda t: cond(isleaf(t))(lambda n: n)(lambda n: size(left(t))(size(right(t))(add(S(Z))(n))))
 
+#Takes tree and initial value n
+#If tree is leaf return n
+#Else return the sum (left)(sum(right)(n+val))
 sum_of = lambda t: cond(isleaf(t))(lambda n: n)(lambda n: sum_of(left(t))(sum_of(right(t))(add(val(t))(n))))
 
 def decodeTree(x,decodeVal):
@@ -82,7 +92,7 @@ def decodeTree(x,decodeVal):
         return [decodeVal(val(x)), decodeTree(left(x),decodeVal),
                                     decodeTree(right(x),decodeVal)]
 
-t = Node(Z)(Node(S(Z))(Leaf)(Leaf))(Node(S(S(Z)))(Leaf)(Leaf))
+t = Node(S(Z))(Node(S(Z))(Leaf)(Leaf))(Node(S(S(Z)))(Leaf)(Leaf))
 
 print (decodeTree(t,decodeNat))
 print (decodeNat(size(t)(Z)))
